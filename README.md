@@ -1,6 +1,6 @@
 # Kapix AI
 
-![Kapix AI Banner](https://i.postimg.cc/nhP8jKDg/KAPIX-AI.png)
+![Kapix AI Banner](https://url-do-twojego-obrazu.png)
 
 Polski bot Discord oparty na modelu językowym. Uczestniczy w rozmowach, śledzi aktualne wyniki piłkarskie, obsługuje losowanie nagród za levele oraz system demokratycznego wyciszania użytkowników.
 
@@ -30,20 +30,19 @@ cd kapix
 pip install -r requirements.txt
 ```
 
-Stwórz plik `.env` w katalogu projektu:
+Stwórz plik `.env` w katalogu projektu i uzupełnij wszystkie wartości:
 
-```
-DISCORD_TOKEN=wklej_token_tutaj
-```
+```env
+DISCORD_TOKEN=twoj_token_discord
 
-W `main.py` uzupełnij klucz [OpenRouter](https://openrouter.ai/) oraz ID kanałów:
+OPENROUTER_KEY=sk-or-...
+OPENROUTER_MODEL=meta-llama/llama-3.3-70b-instruct
 
-```python
-OPENROUTER_KEY  = "sk-or-..."
+KANAL_GLOWNY=id_kanalu        # główny kanał — bot odpowiada na każdą wiadomość z jego imieniem
+KANAL_DODATKOWY=id_kanalu     # drugi kanał — mniejsza szansa odpowiedzi (15%)
+KANAL_STARTIT=id_kanalu       # kanał bota levelowego — tu wykrywa awanse
 
-KANAL_GLOWNY    = ...   # główny kanał — bot odpowiada na każdą wiadomość z jego imieniem
-KANAL_DODATKOWY = ...   # drugi kanał — mniejsza szansa odpowiedzi (15%)
-KANAL_STARTIT   = ...   # kanał bota levelowego — tu wykrywa awanse
+DOZWOLENI=id1,id2,id3         # ID użytkowników z uprawnieniami admina (oddzielone przecinkami)
 ```
 
 Uruchomienie:
