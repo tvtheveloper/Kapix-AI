@@ -17,9 +17,6 @@ Co 12 godzin pobiera aktualne tabele, wyniki i statystyki strzelców z Champions
 **🎰 Losowanie nagród za levele**
 Po awansie na level bot automatycznie tworzy wątek pod wiadomością i przeprowadza animowane losowanie nagrody. Szanse rosną wraz z poziomem.
 
-**🗳️ VoteMute**
-Użytkownicy mogą głosować za wyciszeniem kogoś. Czas muta i wymagana liczba głosów są losowe — od 1 minuty do tygodnia.
-
 **📺 Monitoring YouTube**
 Śledzi kanał Biruteqq — statystyki, ostatnie filmy, najpopularniejsze materiały.
 
@@ -60,9 +57,7 @@ python app.py
 ## 🛠️ Komendy
 
 ```
-$votemute @user       — rozpocznij głosowanie na muta
 $w=tekst              — wyślij wiadomość jako bot          [admin]
-$votemute_toggle      — włącz / wyłącz system votemute    [admin]
 $losuj_<level>        — testuj losowanie nagrody           [admin]
 ```
 
