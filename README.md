@@ -1,6 +1,6 @@
 # Kapix AI
 
-![Kapix AI Banner](https://url-do-twojego-obrazu.png)
+![Kapix AI Banner](https://i.postimg.cc/nhP8jKDg/KAPIX-AI.png)
 
 Polski bot Discord oparty na modelu językowym. Uczestniczy w rozmowach, śledzi aktualne wyniki piłkarskie, obsługuje losowanie nagród za levele oraz system demokratycznego wyciszania użytkowników.
 
