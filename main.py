@@ -13,10 +13,8 @@ from youtube import task_youtube, youtube_jako_tekst
 load_dotenv()
 TOKEN = os.environ["DISCORD_TOKEN"]
 
-DOZWOLENI         = {1408121724729561259, 1255961241155928210, 1466119545545818267}
-CHRONIENI         = {1408121724729561259, 1255961241155928210}
-VOTEMUTE_WLACZONY = False
-AI_WLACZONY       = True
+DOZWOLENI   = {1408121724729561259, 1255961241155928210, 1466119545545818267}
+AI_WLACZONY = True
 KANAL_GLOWNY    = 994891643822022737
 KANAL_DODATKOWY = 994891643822022737
 KANAL_STARTIT   = 995721505386270810
@@ -49,7 +47,7 @@ def make_client():
 
     @c.event
     async def on_message(msg):
-        global VOTEMUTE_WLACZONY, AI_WLACZONY
+        global AI_WLACZONY
         tekst = msg.content.strip()
 
         if msg.author.bot and msg.channel.id == KANAL_STARTIT:
@@ -130,12 +128,6 @@ def make_client():
                     await asyncio.gather(msg.delete(), msg.channel.send(tresc))
                 return
 
-            if tekst == "$votemute_toggle":
-                VOTEMUTE_WLACZONY = not VOTEMUTE_WLACZONY
-                stan = "wlaczony" if VOTEMUTE_WLACZONY else "wylaczony"
-                await msg.channel.send(f"votemute {stan}")
-                return
-
             if tekst.startswith("$losuj_"):
                 try:
                     lvl = int(tekst[7:])
@@ -199,59 +191,6 @@ def make_client():
                 await wiadomosc.edit(embed=wynik)
                 return
 
-        if tekst.startswith("$votemute "):
-            if not VOTEMUTE_WLACZONY:
-                await msg.channel.send("votemute jest wylaczony")
-                return
-            parts = tekst.split()
-            match = re.search(r'<@!?(\d+)>', parts[1]) if len(parts) > 1 else None
-            if not match:
-                await msg.channel.send("uzycie: $votemute <@user>")
-                return
-            target_id = int(match.group(1))
-            if target_id == msg.author.id:
-                await msg.channel.send("siebie nie mozesz mutowac debilu")
-                return
-            if target_id in CHRONIENI:
-                await msg.channel.send("tego nie mozesz mutowac")
-                return
-            if target_id in aktywne_votemute:
-                await msg.channel.send("votemute na tego usera juz trwa")
-                return
-            try:
-                target = msg.guild.get_member(target_id) or await msg.guild.fetch_member(target_id)
-            except discord.NotFound:
-                await msg.channel.send("nie ma takiego na serwerze")
-                return
-            wymagane = random.randint(5, 15)
-            if wymagane <= 6:
-                minuty = random.choice([1, 5])
-            elif wymagane <= 8:
-                minuty = 10
-            elif wymagane <= 9:
-                minuty = 60
-            elif wymagane <= 12:
-                minuty = 1440
-            else:
-                minuty = 10080
-            aktywne_votemute[target_id] = {
-                "glosy": {msg.author.id},
-                "minuty": minuty,
-                "wymagane": wymagane,
-                "kanal_id": msg.channel.id,
-            }
-            embed = discord.Embed(
-                title="🗳️ VoteMute",
-                description=f"głosowanie na muta dla **{target.display_name}**\nczas muta: **{minuty} min**\n\nkliknij ✅ żeby zagłosować\npotrzeba **{wymagane} głosów**",
-                color=0xed4245
-            )
-            embed.add_field(name="Głosy", value=f"1 / {wymagane}")
-            embed.set_footer(text=f"ID: {target_id}")
-            wiad = await msg.channel.send(embed=embed)
-            await wiad.add_reaction("✅")
-            aktywne_votemute[target_id]["wiadomosc_id"] = wiad.id
-            return
-
         if c.user in msg.mentions:
             if not AI_WLACZONY:
                 return
@@ -299,60 +238,6 @@ def make_client():
             await msg.reply(odp, mention_author=False)
         except Exception as e:
             print(f"[spontaniczne] blad: {e}")
-
-    @c.event
-    async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
-        if payload.user_id == c.user.id:
-            return
-        if str(payload.emoji) != "✅":
-            return
-
-        for target_id, dane in list(aktywne_votemute.items()):
-            if dane["wiadomosc_id"] == payload.message_id:
-                if payload.user_id in dane["glosy"]:
-                    return
-                dane["glosy"].add(payload.user_id)
-                ile = len(dane["glosy"])
-                wymagane = dane["wymagane"]
-
-                kanal = c.get_channel(dane["kanal_id"])
-                if not kanal:
-                    return
-
-                try:
-                    wiad = await kanal.fetch_message(dane["wiadomosc_id"])
-                except Exception:
-                    return
-
-                if ile >= wymagane:
-                    minuty = dane["minuty"]
-                    del aktywne_votemute[target_id]
-                    guild = kanal.guild
-                    try:
-                        member = guild.get_member(target_id) or await guild.fetch_member(target_id)
-                        until = datetime.now(timezone.utc) + timedelta(minutes=minuty)
-                        await member.timeout(until, reason="votemute")
-                        embed = discord.Embed(
-                            title="🔇 VoteMute — sukces!",
-                            description=f"<@{target_id}> dostał muta na **{minuty} min**\nzebrało się **{ile} głosów**",
-                            color=0xed4245
-                        )
-                        await wiad.edit(embed=embed)
-                        await wiad.clear_reactions()
-                    except discord.Forbidden:
-                        await kanal.send("nie mam perma do mutowania")
-                    except Exception as e:
-                        await kanal.send(f"blad: {e}")
-                else:
-                    embed = discord.Embed(
-                        title="🗳️ VoteMute",
-                        description=f"głosowanie na muta dla <@{target_id}>\nczas muta: **{dane['minuty']} min**\n\nkliknij ✅ żeby zagłosować\npotrzeba **{wymagane} głosów**",
-                        color=0xed4245
-                    )
-                    embed.add_field(name="Głosy", value=f"{ile} / {wymagane}")
-                    embed.set_footer(text=f"ID: {target_id}")
-                    await wiad.edit(embed=embed)
-                return
 
     return c
 
@@ -572,8 +457,6 @@ NIE zaczynaj od "hej" ani "czesc". TYLKO sama wiadomosc, nic wiecej.
 
 _bufor_wiad: list[str] = []
 _bufor_lock = asyncio.Lock()
-
-aktywne_votemute: dict[int, dict] = {}
 
 class GroqWyczerpany(Exception):
     pass
