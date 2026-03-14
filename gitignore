@@ -1,6 +1,9 @@
 # Sekrety
 .env
 
+# Lokalne dane uzytkownika
+.local/
+
 # Dane cache (odswiezane automatycznie)
 pilka.json
 youtube.json
