@@ -1,23 +1,31 @@
-# kapix — Discord Bot
+# Kapix AI
 
-Bot Discordowy pisany w Pythonie. Reaguje na wiadomości z użyciem AI, śledzi statystyki piłkarskie i kanał YouTube, obsługuje losowanie nagród za levele oraz system VoteMute.
+![Kapix AI Banner](https://url-do-twojego-obrazu.png)
 
-## Funkcje
+Polski bot Discord oparty na modelu językowym. Uczestniczy w rozmowach, śledzi aktualne wyniki piłkarskie, obsługuje losowanie nagród za levele oraz system demokratycznego wyciszania użytkowników.
 
-- **AI na czacie** — odpowiada gdy ktoś go pingnie lub napisze jego imię, bazując na historii serwera
-- **Pamięć serwera** — zapamiętuje użytkowników i tematy rozmów (`mozg.json`)
-- **Losowanie nagród** — automatycznie losuje nagrodę po awansie na level (w wątku pod wiadomością bota levelowego)
-- **VoteMute** — społecznościowe wyciszanie użytkowników głosowaniem
-- **Dane piłkarskie** — aktualne tabele, wyniki i statystyki PSG z 6 lig (co 12h)
-- **YouTube** — śledzenie kanału Biruteqq (co 12h)
+---
 
-## Wymagania
+## ✨ Funkcje
 
-- Python 3.10+
-- Konto na [OpenRouter](https://openrouter.ai/) (klucz API do modelu LLM)
-- Bot Discord z uprawnieniami: `Send Messages`, `Manage Threads`, `Moderate Members`, `Read Message History`
+**🤖 Rozmowy oparte na AI**
+Kapix odpowiada gdy zostanie spingowany lub ktoś napisze jego imię. Korzysta z modelu LLaMA 3.3 70B przez OpenRouter. Buduje pamięć serwera — zapamiętuje użytkowników, tematy i kontekst rozmów.
 
-## Instalacja
+**⚽ Dane piłkarskie**
+Co 12 godzin pobiera aktualne tabele, wyniki i statystyki strzelców z Champions League, Ligue 1, Premier League, Bundesligi, Serie A oraz La Liga. Śledzi również pełny terminarz i skład PSG.
+
+**🎰 Losowanie nagród za levele**
+Po awansie na level bot automatycznie tworzy wątek pod wiadomością i przeprowadza animowane losowanie nagrody. Szanse rosną wraz z poziomem.
+
+**🗳️ VoteMute**
+Użytkownicy mogą głosować za wyciszeniem kogoś. Czas muta i wymagana liczba głosów są losowe — od 1 minuty do tygodnia.
+
+**📺 Monitoring YouTube**
+Śledzi kanał Biruteqq — statystyki, ostatnie filmy, najpopularniejsze materiały.
+
+---
+
+## 🚀 Instalacja
 
 ```bash
 git clone https://github.com/TWOJ_NICK/kapix.git
@@ -27,53 +35,48 @@ pip install -r requirements.txt
 
 Stwórz plik `.env` w katalogu projektu:
 
-```env
-DISCORD_TOKEN=twoj_token_discord
+```
+DISCORD_TOKEN=wklej_token_tutaj
 ```
 
-Następnie w `main.py` uzupełnij swój klucz OpenRouter:
+W `main.py` uzupełnij klucz [OpenRouter](https://openrouter.ai/) oraz ID kanałów:
 
 ```python
-OPENROUTER_KEY = "sk-or-..."
+OPENROUTER_KEY  = "sk-or-..."
+
+KANAL_GLOWNY    = ...   # główny kanał — bot odpowiada na każdą wiadomość z jego imieniem
+KANAL_DODATKOWY = ...   # drugi kanał — mniejsza szansa odpowiedzi (15%)
+KANAL_STARTIT   = ...   # kanał bota levelowego — tu wykrywa awanse
 ```
 
-Oraz ID kanałów swojego serwera:
-
-```python
-KANAL_GLOWNY    = ...
-KANAL_DODATKOWY = ...
-KANAL_STARTIT   = ...   # kanal gdzie bot levelowy wysyla wiadomosci o awansie
-```
-
-## Uruchomienie
+Uruchomienie:
 
 ```bash
 python app.py
 ```
 
-## Komendy
+---
 
-| Komenda | Uprawnienia | Opis |
-|---|---|---|
-| `$w=<tekst>` | admin | Wyślij wiadomość jako bot (usuwa oryginalną) |
-| `$mozg_flush` | admin | Ręcznie zapisz bufor do pamięci |
-| `$votemute_toggle` | admin | Włącz/wyłącz VoteMute |
-| `$losuj_<level>` | admin | Ręcznie przetestuj losowanie nagrody |
-| `$votemute <@user>` | wszyscy | Rozpocznij głosowanie na muta |
-
-## Struktura plików
+## 🛠️ Komendy
 
 ```
-kapix/
-├── app.py            # launcher
-├── main.py           # logika bota
-├── pilka.py          # dane piłkarskie
-├── youtube.py        # dane YouTube
-├── requirements.txt
-├── .env              # NIE commituj tego pliku
-└── .gitignore
+$votemute @user       — rozpocznij głosowanie na muta
+$w=tekst              — wyślij wiadomość jako bot          [admin]
+$votemute_toggle      — włącz / wyłącz system votemute    [admin]
+$mozg_flush           — ręcznie zapisz pamięć serwera     [admin]
+$losuj_<level>        — testuj losowanie nagrody           [admin]
 ```
 
-## Licencja
+---
+
+## 📋 Wymagania
+
+- Python 3.10+
+- Uprawnienia bota: `Send Messages`, `Create Public Threads`, `Moderate Members`
+- Klucz API [OpenRouter](https://openrouter.ai/)
+
+---
+
+## 📄 Licencja
 
 MIT — szczegóły w pliku [LICENSE](LICENSE).
