@@ -13,11 +13,11 @@ from youtube import task_youtube, youtube_jako_tekst
 load_dotenv()
 TOKEN = os.environ["DISCORD_TOKEN"]
 
-DOZWOLENI   = {1408121724729561259, 1255961241155928210, 1466119545545818267}
-AI_WLACZONY = True
-KANAL_GLOWNY    = 994891643822022737
-KANAL_DODATKOWY = 994891643822022737
-KANAL_STARTIT   = 995721505386270810
+DOZWOLENI       = set(int(x) for x in os.environ["DOZWOLENI"].split(","))
+AI_WLACZONY     = True
+KANAL_GLOWNY    = int(os.environ["KANAL_GLOWNY"])
+KANAL_DODATKOWY = int(os.environ["KANAL_DODATKOWY"])
+KANAL_STARTIT   = int(os.environ["KANAL_STARTIT"])
 
 SZANSA_ODPOWIEDZI = {
     KANAL_GLOWNY:    1.0,
@@ -26,9 +26,9 @@ SZANSA_ODPOWIEDZI = {
 
 MOZG_PLIK = "mozg.json"
 
-OPENROUTER_KEY   = "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"
+OPENROUTER_KEY   = os.environ["OPENROUTER_KEY"]
 OPENROUTER_URL   = "https://openrouter.ai/api/v1/chat/completions"
-OPENROUTER_MODEL = "meta-llama/llama-3.3-70b-instruct"
+OPENROUTER_MODEL = os.environ["OPENROUTER_MODEL"]
 
 def make_client():
     intents = discord.Intents.default()
