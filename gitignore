@@ -1,0 +1,36 @@
+# Sekrety
+.env
+
+# Dane cache (odswiezane automatycznie)
+pilka.json
+youtube.json
+
+# Pamiec bota (dane prywatne serwera)
+mozg.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Srodowiska wirtualne
+venv/
+.venv/
+env/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System
+.DS_Store
+Thumbs.db
