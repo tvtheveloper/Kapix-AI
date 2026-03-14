@@ -130,18 +130,6 @@ def make_client():
                     await asyncio.gather(msg.delete(), msg.channel.send(tresc))
                 return
 
-            if tekst == "$mozg_flush":
-                async with _bufor_lock:
-                    snapshot = list(_bufor_wiad)
-                    _bufor_wiad.clear()
-                if snapshot:
-                    await msg.channel.send("aktualizuje mozg...")
-                    await zaktualizuj_mozg(snapshot)
-                    await msg.channel.send("gotowe")
-                else:
-                    await msg.channel.send("bufor pusty")
-                return
-
             if tekst == "$votemute_toggle":
                 VOTEMUTE_WLACZONY = not VOTEMUTE_WLACZONY
                 stan = "wlaczony" if VOTEMUTE_WLACZONY else "wylaczony"
