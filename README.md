@@ -1,6 +1,6 @@
 # Kapix AI
 
-![Kapix AI Banner](https://i.postimg.cc/nhP8jKDg/KAPIX-AI.png)
+![Kapix AI Banner](https://url-do-twojego-obrazu.png)
 
 Polski bot Discord oparty na modelu językowym. Uczestniczy w rozmowach, śledzi aktualne wyniki piłkarskie, obsługuje losowanie nagród za levele oraz system demokratycznego wyciszania użytkowników.
 
@@ -63,7 +63,6 @@ python app.py
 $votemute @user       — rozpocznij głosowanie na muta
 $w=tekst              — wyślij wiadomość jako bot          [admin]
 $votemute_toggle      — włącz / wyłącz system votemute    [admin]
-$mozg_flush           — ręcznie zapisz pamięć serwera     [admin]
 $losuj_<level>        — testuj losowanie nagrody           [admin]
 ```
 
