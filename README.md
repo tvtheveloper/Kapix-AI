@@ -1,139 +1,79 @@
-# 🤖 Discord AI Bot
+# kapix — Discord Bot
 
-Nowoczesny bot Discord napisany w Pythonie, który łączy **AI chat, dane piłkarskie oraz integrację z YouTube** w jednym projekcie.
+Bot Discordowy pisany w Pythonie. Reaguje na wiadomości z użyciem AI, śledzi statystyki piłkarskie i kanał YouTube, obsługuje losowanie nagród za levele oraz system VoteMute.
 
-Bot został zaprojektowany tak, aby był **lekki, szybki i łatwy do rozbudowy**.
+## Funkcje
 
----
+- **AI na czacie** — odpowiada gdy ktoś go pingnie lub napisze jego imię, bazując na historii serwera
+- **Pamięć serwera** — zapamiętuje użytkowników i tematy rozmów (`mozg.json`)
+- **Losowanie nagród** — automatycznie losuje nagrodę po awansie na level (w wątku pod wiadomością bota levelowego)
+- **VoteMute** — społecznościowe wyciszanie użytkowników głosowaniem
+- **Dane piłkarskie** — aktualne tabele, wyniki i statystyki PSG z 6 lig (co 12h)
+- **YouTube** — śledzenie kanału Biruteqq (co 12h)
 
-# ✨ Funkcje
+## Wymagania
 
-### 💬 AI Chat
+- Python 3.10+
+- Konto na [OpenRouter](https://openrouter.ai/) (klucz API do modelu LLM)
+- Bot Discord z uprawnieniami: `Send Messages`, `Manage Threads`, `Moderate Members`, `Read Message History`
 
-Bot potrafi odpowiadać na wiadomości użytkowników przy użyciu modelu AI.
+## Instalacja
 
-Możliwe zastosowania:
-
-* rozmowy z botem
-* pomoc w serwerze
-* generowanie tekstu
-
----
-
-### ⚽ Dane piłkarskie
-
-Bot może pobierać dane o piłce nożnej z API:
-
-* tabele lig
-* informacje o drużynach
-* zapisywanie danych do pliku
-
----
-
-### 📺 YouTube
-
-Bot potrafi pobierać dane o kanałach YouTube:
-
-* statystyki kanału
-* podstawowe informacje
-* zapis danych
-
----
-
-### 💾 System zapisu danych
-
-Bot przechowuje dane w plikach JSON:
-
-| Plik           | Opis            |
-| -------------- | --------------- |
-| `mozg.json`    | dane systemu AI |
-| `pilka.json`   | dane piłkarskie |
-| `youtube.json` | dane YouTube    |
-
----
-
-# 🧱 Struktura projektu
-
-```
-project/
-│
-├── main.py
-├── app.py
-├── pilka.py
-├── youtube.py
-│
-├── mozg.json
-├── pilka.json
-├── youtube.json
-│
-└── requirements.txt
-```
-
----
-
-# 🚀 Instalacja
-
-### 1️⃣ Pobierz repozytorium
-
-```
-git clone https://github.com/TWOJE_REPO
-cd TWOJE_REPO
-```
-
-### 2️⃣ Zainstaluj biblioteki
-
-```
+```bash
+git clone https://github.com/TWOJ_NICK/kapix.git
+cd kapix
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Dodaj token bota
+Stwórz plik `.env` w katalogu projektu:
 
-Ustaw zmienną środowiskową:
-
-```
-DISCORD_TOKEN=twoj_token
+```env
+DISCORD_TOKEN=twoj_token_discord
 ```
 
----
+Następnie w `main.py` uzupełnij swój klucz OpenRouter:
 
-# ▶️ Uruchomienie
-
-```
-python main.py
+```python
+OPENROUTER_KEY = "sk-or-..."
 ```
 
-Bot uruchomi się i po chwili będzie online na Twoim serwerze Discord.
+Oraz ID kanałów swojego serwera:
 
----
+```python
+KANAL_GLOWNY    = ...
+KANAL_DODATKOWY = ...
+KANAL_STARTIT   = ...   # kanal gdzie bot levelowy wysyla wiadomosci o awansie
+```
 
-# ⚙️ Wymagania
+## Uruchomienie
 
-* Python **3.10 lub nowszy**
-* biblioteki z `requirements.txt`
+```bash
+python app.py
+```
 
----
+## Komendy
 
-# 🔒 Bezpieczeństwo
+| Komenda | Uprawnienia | Opis |
+|---|---|---|
+| `$w=<tekst>` | admin | Wyślij wiadomość jako bot (usuwa oryginalną) |
+| `$mozg_flush` | admin | Ręcznie zapisz bufor do pamięci |
+| `$votemute_toggle` | admin | Włącz/wyłącz VoteMute |
+| `$losuj_<level>` | admin | Ręcznie przetestuj losowanie nagrody |
+| `$votemute <@user>` | wszyscy | Rozpocznij głosowanie na muta |
 
-Nigdy nie publikuj w repozytorium:
+## Struktura plików
 
-* tokena Discord
-* kluczy API
-* danych prywatnych
+```
+kapix/
+├── app.py            # launcher
+├── main.py           # logika bota
+├── pilka.py          # dane piłkarskie
+├── youtube.py        # dane YouTube
+├── requirements.txt
+├── .env              # NIE commituj tego pliku
+└── .gitignore
+```
 
----
+## Licencja
 
-# 🛠 Rozwój projektu
-
-Projekt jest modularny, więc możesz łatwo dodawać nowe funkcje:
-
-* nowe komendy
-* nowe API
-* system ekonomii
-* mini gry
-
----
-
-# 📜 Licencja
-
-Projekt open-source – możesz go dowolnie modyfikować i rozwijać.
+MIT — szczegóły w pliku [LICENSE](LICENSE).
