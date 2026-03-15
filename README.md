@@ -2,7 +2,7 @@
 
 ![Kapix AI Banner](https://i.postimg.cc/nhP8jKDg/KAPIX-AI.png)
 
-Polski bot Discord oparty na modelu językowym. Uczestniczy w rozmowach, śledzi aktualne wyniki piłkarskie, obsługuje losowanie nagród za levele oraz system demokratycznego wyciszania użytkowników.
+Polski bot Discord oparty na modelu językowym. Uczestniczy w rozmowach, śledzi aktualne wyniki piłkarskie, obsługuje również losowanie nagród za levele.
 
 ---
 
