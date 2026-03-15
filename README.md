@@ -25,7 +25,7 @@ Po awansie na level bot automatycznie tworzy wątek pod wiadomością i przeprow
 ## 🚀 Instalacja
 
 ```bash
-git clone https://github.com/tvtheveloper/kapix.git
+git clone git clone https://github.com/tvtheveloper/Kapix-AI.git
 cd kapix
 pip install -r requirements.txt
 ```
